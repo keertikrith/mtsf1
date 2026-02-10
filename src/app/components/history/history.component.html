@@ -1,0 +1,57 @@
+<div class="history-container">
+    <div class="history-card">
+        <div class="history-header">
+            <h1 class="title">Transaction History</h1>
+            <a routerLink="/dashboard" class="btn-back">← Back to Dashboard</a>
+        </div>
+
+        <div class="loading" *ngIf="isLoading">
+            <div class="spinner"></div>
+            <p>Loading transactions...</p>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <div class="transactions" *ngIf="!isLoading && !errorMessage">
+            <div class="empty-state" *ngIf="transactions.length === 0">
+                <div class="empty-icon">📭</div>
+                <h3>No Transactions Yet</h3>
+                <p>Your transaction history will appear here</p>
+            </div>
+
+            <div class="transaction-table" *ngIf="transactions.length > 0">
+                <div class="table-header">
+                    <div class="col-date">Date</div>
+                    <div class="col-type">Type</div>
+                    <div class="col-account">Other Account</div>
+                    <div class="col-amount">Amount</div>
+                    <div class="col-status">Status</div>
+                </div>
+
+                <div class="transaction-row" *ngFor="let transaction of transactions">
+                    <div class="col-date">{{ transaction.createdOn | date:'medium' }}</div>
+                    <div class="col-type">
+                        <span class="badge" [class.badge-debit]="getTransactionType(transaction) === 'DEBIT'"
+                            [class.badge-credit]="getTransactionType(transaction) === 'CREDIT'">
+                            {{ getTransactionType(transaction) }}
+                        </span>
+                    </div>
+                    <div class="col-account">{{ getOtherAccountId(transaction) }}</div>
+                    <div class="col-amount" [class.debit-amount]="getTransactionType(transaction) === 'DEBIT'"
+                        [class.credit-amount]="getTransactionType(transaction) === 'CREDIT'">
+                        {{ getTransactionType(transaction) === 'DEBIT' ? '-' : '+' }}₹{{ transaction.amount |
+                        number:'1.2-2' }}
+                    </div>
+                    <div class="col-status">
+                        <span class="badge" [class.badge-success]="transaction.status === 'SUCCESS'"
+                            [class.badge-failed]="transaction.status === 'FAILED'">
+                            {{ transaction.status }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
