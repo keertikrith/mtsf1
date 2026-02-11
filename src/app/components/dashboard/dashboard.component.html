@@ -7,7 +7,7 @@
     <div class="dashboard-content" *ngIf="!isLoading && account">
         <div class="welcome-banner">
             <h2>Welcome, {{ account.holderName }}!</h2>
-            <p class="account-info">Account ID: <span class="highlight">{{ account.id }}</span></p>
+            <p class="account-info">Account ID: <span class="highlight">{{ account.accountNumber }}</span></p>
             <p class="account-info">Username: <span class="highlight">{{ account.username }}</span></p>
         </div>
 

@@ -13,7 +13,6 @@ export class AuthService {
     public currentAccount$ = this.currentAccountSubject.asObservable();
 
     constructor(private http: HttpClient) {
-        // Load account from localStorage on service init
         const savedAccount = localStorage.getItem('currentAccount');
         if (savedAccount) {
             this.currentAccountSubject.next(JSON.parse(savedAccount));

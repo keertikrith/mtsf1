@@ -15,7 +15,7 @@ import { TransferRequest } from '../../models/models';
 })
 export class TransferComponent implements OnInit {
     fromAccountId: number = 0;
-    toAccountId: number = 0;
+    toAccountIdInput: string = ''; // Changed from number to string input
     amount: number = 0;
     errorMessage = '';
     successMessage = '';
@@ -35,12 +35,19 @@ export class TransferComponent implements OnInit {
     }
 
     transfer(): void {
-        if (!this.toAccountId || this.amount <= 0) {
+        // Parse account ID from input (handle "ACC-" prefix)
+        let toAccountId: number = 0;
+        if (this.toAccountIdInput) {
+            const cleanId = this.toAccountIdInput.replace(/^ACC-/i, '').replace(/^acc-/i, '');
+            toAccountId = parseInt(cleanId, 10);
+        }
+
+        if (!toAccountId || isNaN(toAccountId) || this.amount <= 0) {
             this.errorMessage = 'Please enter valid recipient account ID and amount';
             return;
         }
 
-        if (this.toAccountId === this.fromAccountId) {
+        if (toAccountId === this.fromAccountId) {
             this.errorMessage = 'Cannot transfer to the same account';
             return;
         }
@@ -51,7 +58,7 @@ export class TransferComponent implements OnInit {
 
         const request: TransferRequest = {
             fromAccountId: this.fromAccountId,
-            toAccountId: this.toAccountId,
+            toAccountId: toAccountId,
             amount: this.amount,
             idempotencyKey: this.generateIdempotencyKey()
         };
@@ -60,10 +67,9 @@ export class TransferComponent implements OnInit {
             next: (response) => {
                 this.isLoading = false;
                 this.successMessage = `Transfer successful! Transaction ID: ${response.transactionId}`;
-                this.toAccountId = 0;
+                this.toAccountIdInput = '';
                 this.amount = 0;
 
-                // Navigate to dashboard after 2 seconds
                 setTimeout(() => {
                     this.router.navigate(['/dashboard']);
                 }, 2000);
