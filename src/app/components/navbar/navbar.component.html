@@ -1,0 +1,45 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-brand" routerLink="/dashboard">
+            <div class="brand-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <span class="brand-name">ApexTransfer</span>
+        </div>
+
+        <button class="nav-toggle" (click)="toggleMobileMenu()" [class.open]="isMobileMenuOpen" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-menu" [class.active]="isMobileMenuOpen" *ngIf="account">
+            <a routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="isMobileMenuOpen = false">
+                Dashboard
+            </a>
+            <a routerLink="/transfer" routerLinkActive="active-link" class="nav-item" (click)="isMobileMenuOpen = false">
+                Send Money
+            </a>
+            <a routerLink="/history" routerLinkActive="active-link" class="nav-item" (click)="isMobileMenuOpen = false">
+                History
+            </a>
+            <a routerLink="/rewards" routerLinkActive="active-link" class="nav-item" (click)="isMobileMenuOpen = false">
+                Rewards
+            </a>
+        </div>
+
+        <div class="nav-actions" *ngIf="account">
+            <div class="user-avatar-badge" title="{{ account.holderName }}">
+                {{ account.holderName | slice:0:1 | uppercase }}
+            </div>
+            <button class="btn-logout" (click)="logout()" aria-label="Logout">
+                <span>Logout</span>
+                <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</nav>

@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AccountService } from '../../services/account.service';
 import { Transaction } from '../../models/models';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
     selector: 'app-history',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, NavbarComponent],
     templateUrl: './history.component.html',
     styleUrls: ['./history.component.css']
 })

@@ -5,11 +5,12 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TransferService } from '../../services/transfer.service';
 import { TransferRequest } from '../../models/models';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
     selector: 'app-transfer',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterModule],
+    imports: [CommonModule, FormsModule, RouterModule, NavbarComponent],
     templateUrl: './transfer.component.html',
     styleUrls: ['./transfer.component.css']
 })

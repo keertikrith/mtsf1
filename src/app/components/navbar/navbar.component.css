@@ -1,0 +1,248 @@
+/* ==========================================================================
+   1. Core Navbar Container
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(203, 213, 225, 0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+}
+
+.nav-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Layout flows sequentially left-to-right */
+}
+
+/* ==========================================================================
+   2. Brand / Logo (Left Side)
+   ========================================================================== */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: #1e3a8a;
+    transition: transform 200ms ease;
+    text-decoration: none;
+    flex-shrink: 0; /* Prevents logo collapse on smaller screens */
+}
+
+.nav-brand:hover {
+    transform: translateY(-1px);
+}
+
+.brand-icon {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ==========================================================================
+   3. Navigation Links (Middle Center Area)
+   ========================================================================== */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: 1; /* Instructs the container to expand and occupy all middle space */
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 200ms ease;
+}
+
+.nav-item:hover {
+    color: #1e3a8a;
+    background: rgba(30, 58, 138, 0.04);
+}
+
+.active-link {
+    color: #0f766e;
+    background: rgba(15, 118, 110, 0.06);
+}
+
+/* ==========================================================================
+   4. User Profile & Logout (Right Side)
+   ========================================================================== */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0; /* Keeps actions intact from flexing constraints */
+    margin-left: auto; /* Fallback guard to lock right alignment placement */
+}
+
+.user-avatar-badge {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    color: #0369a1;
+    font-weight: 800;
+    font-size: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(3, 105, 161, 0.2);
+    cursor: default;
+    user-select: none;
+}
+
+.btn-logout {
+    padding: 8px 16px;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 200ms ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-logout:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fca5a5;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08);
+}
+
+.logout-icon {
+    transition: transform 200ms ease;
+}
+
+.btn-logout:hover .logout-icon {
+    transform: translateX(2px);
+}
+
+/* ==========================================================================
+   5. Mobile Responsive Elements & Controls
+   ========================================================================== */
+.nav-toggle {
+    display: none; /* Invisible by default on regular computer screens */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.nav-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: #1e3a8a;
+    border-radius: 2px;
+    transition: all 250ms ease;
+}
+
+/* Tablet & Mobile Landscape View Adjustments */
+@media (max-width: 868px) {
+    .nav-toggle {
+        display: flex;
+        margin-left: auto; /* Forces button positions on right alongside actions */
+    }
+
+    .nav-actions {
+        margin-left: 0;
+        order: 2; /* Repositions actions alongside the menu toggle button */
+    }
+
+    /* Convert standard horizontal layout into a dropdown slide-out block */
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        flex-direction: column;
+        padding: 24px;
+        gap: 12px;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        transform: translateY(-150%);
+        opacity: 0;
+        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
+        pointer-events: none;
+    }
+
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+    }
+
+    /* Burger animation conversions to cross configurations */
+    .nav-toggle.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .nav-toggle.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .nav-toggle.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+}
+
+/* Small Smartphone Views Optimization */
+@media (max-width: 480px) {
+    .brand-name {
+        display: none; /* Hide brand wording if running out of screen width */
+    }
+
+    .btn-logout span {
+        display: none; /* Collapses text elements leaving raw standalone icon indicator */
+    }
+
+    .btn-logout {
+        padding: 10px;
+    }
+}

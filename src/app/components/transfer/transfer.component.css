@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    padding: 40px 20px; /* Reduced from 56px to tighten top canvas area */
+    padding: 100px 20px; /* Reduced from 56px to tighten top canvas area */
     background: linear-gradient(135deg, #ecf0f7 0%, #f5f7fc 50%, #e8f1fb 100%);
     position: relative;
     overflow-x: hidden;

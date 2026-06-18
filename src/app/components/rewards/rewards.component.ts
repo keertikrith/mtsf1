@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { RewardService } from '../../services/reward.service';
 import { RewardSummary } from '../../models/models';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
     selector: 'app-rewards',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, NavbarComponent],
     templateUrl: './rewards.component.html',
     styleUrls: ['./rewards.component.css']
 })

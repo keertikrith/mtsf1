@@ -3,26 +3,28 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AccountService } from '../../services/account.service';
-import { RewardService } from '../../services/reward.service';        // ← NEW
+import { RewardService } from '../../services/reward.service';
 import { Account } from '../../models/models';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, NavbarComponent],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
     account: Account | null = null;
     balance: number = 0;
-    totalRewardPoints: number = 0;                                     // ← NEW
+    totalRewardPoints: number = 0;
     isLoading = true;
+    isMobileMenuOpen = false; // Added for responsive mobile menu toggle
 
     constructor(
         private authService: AuthService,
         private accountService: AccountService,
-        private rewardService: RewardService,                          // ← NEW
+        private rewardService: RewardService,
         private router: Router
     ) { }
 
@@ -46,18 +48,19 @@ export class DashboardComponent implements OnInit {
                 }
             });
 
-            // ── NEW: load reward points ──────────────────────────────────────
             this.rewardService.getRewardSummary(accountId).subscribe({
                 next: (summary) => {
                     this.totalRewardPoints = summary.totalPoints;
                 },
                 error: () => {
-                    // Non-critical — dashboard still works without points
                     this.totalRewardPoints = 0;
                 }
             });
-            // ────────────────────────────────────────────────────────────────
         }
+    }
+
+    toggleMobileMenu(): void {
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
     }
 
     logout(): void {
