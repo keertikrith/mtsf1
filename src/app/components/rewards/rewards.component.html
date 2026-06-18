@@ -1,71 +1,79 @@
-
-
-<div class="rewards-container">
-    <div class="rewards-card">
-
-        <div class="rewards-header">
-            <h1 class="title">My Rewards</h1>
-            <a routerLink="/dashboard" class="btn-back">← Back to Dashboard</a>
+<div class="rewards-root">
+    <header class="header-row">
+        <div>
+            <h1 class="heading">Rewards</h1>
+            <p class="subheading">Track your earned points</p>
         </div>
+        <a routerLink="/dashboard" class="link-back" aria-label="Back to dashboard">
+            <svg class="icon-back" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5M5 12l7-7m-7 7l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </a>
+    </header>
 
-        <!-- Loading -->
-        <div class="loading" *ngIf="isLoading">
-            <div class="spinner"></div>
-            <p>Loading your rewards...</p>
-        </div>
+    <div class="loading" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Loading your rewards...</p>
+    </div>
 
-        <!-- Error -->
-        <div class="error-message" *ngIf="errorMessage">
-            {{ errorMessage }}
-        </div>
+    <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
 
-        <!-- Content -->
-        <div *ngIf="!isLoading && !errorMessage && rewardSummary">
+    <div class="rewards-content" *ngIf="!isLoading && !errorMessage && rewardSummary">
+        <section class="points-banner">
+            <div class="banner-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9H4.5a2.5 2.5 0 010-5H6M18 9h1.5a2.5 2.5 0 100-5H18M4 22h16M10 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34M12 2a4 4 0 00-4 4v3c0 2.21 1.79 4 4 4s4-1.79 4-4V6a4 4 0 00-4-4z" stroke="url(#gradient-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="gradient-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fbbf24" />
+                            <stop offset="100%" stop-color="#f59e0b" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="banner-info">
+                <label class="banner-label">Total Points</label>
+                <div class="banner-value">{{ rewardSummary.totalPoints }}</div>
+                <p class="banner-meta">1 point earned per ₹100 transferred</p>
+            </div>
+        </section>
 
-            <!-- Total Points Banner -->
-            <div class="points-banner">
-                <div class="points-icon">🏆</div>
-                <div class="points-info">
-                    <div class="points-label">Total Reward Points</div>
-                    <div class="points-value">{{ rewardSummary.totalPoints }}</div>
-                    <div class="points-sub">1 point earned per ₹100 transferred</div>
+        <section class="history-section">
+            <h2 class="section-title">History</h2>
+
+            <div class="empty-state" *ngIf="rewardSummary.history.length === 0">
+                <div class="empty-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
                 </div>
+                <h3 class="empty-title">No rewards yet</h3>
+                <p class="empty-text">Transfer more than ₹100 to start earning points</p>
+                <a routerLink="/transfer" class="btn-transfer">Make a Transfer</a>
             </div>
 
-            <!-- History -->
-            <div class="history-section">
-                <h2 class="section-title">Reward History</h2>
-
-                <!-- Empty state -->
-                <div class="empty-state" *ngIf="rewardSummary.history.length === 0">
-                    <div class="empty-icon">🎯</div>
-                    <h3>No rewards yet</h3>
-                    <p>Transfer more than ₹100 to start earning points</p>
-                    <a routerLink="/transfer" class="btn-transfer">Make a Transfer</a>
+            <div class="reward-table" *ngIf="rewardSummary.history.length > 0">
+                <div class="table-header">
+                    <div class="col-date">Date</div>
+                    <div class="col-txn">Transaction</div>
+                    <div class="col-points">Points</div>
                 </div>
 
-                <!-- Reward entries table -->
-                <div class="reward-table" *ngIf="rewardSummary.history.length > 0">
-                    <div class="table-header">
-                        <div class="col-date">Date</div>
-                        <div class="col-txn">Transaction ID</div>
-                        <div class="col-points">Points Earned</div>
+                <div class="reward-row" *ngFor="let entry of rewardSummary.history">
+                    <div class="col-date">{{ entry.createdOn | date:'short' }}</div>
+                    <div class="col-txn">
+                        <span class="txn-id">{{ entry.transactionId | slice:0:16 }}…</span>
                     </div>
-
-                    <div class="reward-row" *ngFor="let entry of rewardSummary.history">
-                        <div class="col-date">{{ entry.createdOn | date:'medium' }}</div>
-                        <div class="col-txn">
-                            <span class="txn-id">{{ entry.transactionId | slice:0:16 }}…</span>
-                        </div>
-                        <div class="col-points">
-                            <span class="points-badge">+{{ entry.pointsEarned }} pts</span>
-                        </div>
+                    <div class="col-points">
+                        <span class="points-badge">+{{ entry.pointsEarned }}</span>
                     </div>
                 </div>
             </div>
-
-        </div>
+        </section>
     </div>
 </div>
-
-

@@ -1,55 +1,64 @@
-<div class="history-container">
-    <div class="history-card">
-        <div class="history-header">
-            <h1 class="title">Transaction History</h1>
-            <a routerLink="/dashboard" class="btn-back">← Back to Dashboard</a>
+<div class="history-root">
+    <header class="header-row">
+        <div>
+            <h1 class="heading">Transactions</h1>
+            <p class="subheading">View all your transfers</p>
+        </div>
+        <a routerLink="/dashboard" class="link-back" aria-label="Back to dashboard">
+            <svg class="icon-back" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5M5 12l7-7m-7 7l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </a>
+    </header>
+
+    <div class="loading" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Loading transactions...</p>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="transactions-section" *ngIf="!isLoading && !errorMessage">
+        <div class="empty-state" *ngIf="transactions.length === 0">
+            <div class="empty-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 13V6a2 2 0 00-2-2H4a2 2 0 00-2 2v7M2 13a2 2 0 002 2h3.586a1 1 0 01.707.293l1.414 1.414a2 2 0 002.828 0l1.414-1.414a1 1 0 01.707-.293H20a2 2 0 002-2M2 13h4M18 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3 class="empty-title">No transactions yet</h3>
+            <p class="empty-text">Your transfer history will appear here</p>
         </div>
 
-        <div class="loading" *ngIf="isLoading">
-            <div class="spinner"></div>
-            <p>Loading transactions...</p>
-        </div>
-
-        <div class="error-message" *ngIf="errorMessage">
-            {{ errorMessage }}
-        </div>
-
-        <div class="transactions" *ngIf="!isLoading && !errorMessage">
-            <div class="empty-state" *ngIf="transactions.length === 0">
-                <div class="empty-icon">📭</div>
-                <h3>No Transactions Yet</h3>
-                <p>Your transaction history will appear here</p>
+        <div class="transactions-table" *ngIf="transactions.length > 0">
+            <div class="table-header">
+                <div class="col-date">Date</div>
+                <div class="col-type">Type</div>
+                <div class="col-account">Account</div>
+                <div class="col-amount">Amount</div>
+                <div class="col-status">Status</div>
             </div>
 
-            <div class="transaction-table" *ngIf="transactions.length > 0">
-                <div class="table-header">
-                    <div class="col-date">Date</div>
-                    <div class="col-type">Type</div>
-                    <div class="col-account">Other Account</div>
-                    <div class="col-amount">Amount</div>
-                    <div class="col-status">Status</div>
+            <div class="transaction-row" *ngFor="let transaction of transactions">
+                <div class="col-date">{{ transaction.createdOn | date:'short' }}</div>
+                <div class="col-type">
+                    <span class="badge" [class.badge-debit]="getTransactionType(transaction) === 'DEBIT'"
+                        [class.badge-credit]="getTransactionType(transaction) === 'CREDIT'">
+                        {{ getTransactionType(transaction) }}
+                    </span>
                 </div>
-
-                <div class="transaction-row" *ngFor="let transaction of transactions">
-                    <div class="col-date">{{ transaction.createdOn | date:'medium' }}</div>
-                    <div class="col-type">
-                        <span class="badge" [class.badge-debit]="getTransactionType(transaction) === 'DEBIT'"
-                            [class.badge-credit]="getTransactionType(transaction) === 'CREDIT'">
-                            {{ getTransactionType(transaction) }}
-                        </span>
-                    </div>
-                    <div class="col-account">{{ getOtherAccountId(transaction) }}</div>
-                    <div class="col-amount" [class.debit-amount]="getTransactionType(transaction) === 'DEBIT'"
-                        [class.credit-amount]="getTransactionType(transaction) === 'CREDIT'">
-                        {{ getTransactionType(transaction) === 'DEBIT' ? '-' : '+' }}₹{{ transaction.amount |
-                        number:'1.2-2' }}
-                    </div>
-                    <div class="col-status">
-                        <span class="badge" [class.badge-success]="transaction.status === 'SUCCESS'"
-                            [class.badge-failed]="transaction.status === 'FAILED'">
-                            {{ transaction.status }}
-                        </span>
-                    </div>
+                <div class="col-account">{{ getOtherAccountId(transaction) }}</div>
+                <div class="col-amount" [class.debit]="getTransactionType(transaction) === 'DEBIT'"
+                    [class.credit]="getTransactionType(transaction) === 'CREDIT'">
+                    {{ getTransactionType(transaction) === 'DEBIT' ? '−' : '+' }}₹{{ transaction.amount | number:'1.2-2' }}
+                </div>
+                <div class="col-status">
+                    <span class="badge" [class.badge-success]="transaction.status === 'SUCCESS'"
+                        [class.badge-failed]="transaction.status === 'FAILED'">
+                        {{ transaction.status }}
+                    </span>
                 </div>
             </div>
         </div>
