@@ -20,7 +20,7 @@
 
 .history-root > * {
     width: 100%;
-    max-width: 1050px; /* Slight extra room given to support clear horizontal length expansions */
+    max-width: 1100px; /* Marginally scaled to ensure ample space for horizontal data structure */
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -158,11 +158,11 @@
     box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
 }
 
-/* Back to standard 5-column setup with a slightly scaled grid for amounts */
+/* 5-column setup with explicit high layout weight allocation given to Amount row */
 .history-root .table-header,
 .transaction-row {
     display: grid;
-    grid-template-columns: 1fr 0.8fr 1fr 2fr 0.8fr;
+    grid-template-columns: 1fr 0.7fr 1fr 2.4fr 0.7fr;
     gap: 16px;
     padding: 16px 20px;
     align-items: center;
@@ -210,12 +210,22 @@
     color: #64748b;
 }
 
-/* Horizontal layout configuration container inside Total Amount */
+/* Fixed internal sub-alignment grid system inside Total Amount */
 .info-breakdown-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap; /* Forces everything strictly onto the same single row line */
+    width: 100%;
+}
+
+.total-block {
+    width: 105px; /* Rigid constraint prevents variable digit values from altering layout width */
+    flex-shrink: 0;
+}
+
+.breakdown-block {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
 .base-total-line {
@@ -232,13 +242,7 @@
     color: #059669;
 }
 
-.inline-separator {
-    color: #cbd5e1;
-    font-size: 14px;
-    user-select: none;
-}
-
-/* Horizontal metadata breakdown container styling */
+/* Horizontal metadata breakdown components layout */
 .rewards-meta-inline {
     display: inline-flex;
     align-items: center;
@@ -311,7 +315,7 @@
 @media (max-width: 1024px) {
     .history-root .table-header,
     .transaction-row {
-        grid-template-columns: 1fr 0.8fr 1fr 1.8fr 0.8fr;
+        grid-template-columns: 1fr 0.8fr 1fr 2.2fr 0.8fr;
         gap: 12px;
         padding: 12px;
     }

@@ -55,16 +55,18 @@
                 <div class="col-amount info-breakdown-row" [class.debit]="getTransactionType(transaction) === 'DEBIT'"
                     [class.credit]="getTransactionType(transaction) === 'CREDIT'">
                     
-                    <span class="base-total-line">
-                        {{ getTransactionType(transaction) === 'DEBIT' ? '−' : '+' }}₹{{ transaction.amount | number:'1.2-2' }}
-                    </span>
+                    <div class="total-block">
+                        <span class="base-total-line">
+                            {{ getTransactionType(transaction) === 'DEBIT' ? '−' : '+' }}₹{{ transaction.amount | number:'1.2-2' }}
+                        </span>
+                    </div>
                     
-                    <span class="inline-separator" *ngIf="getTransactionType(transaction) === 'DEBIT'">•</span>
-                    
-                    <div class="rewards-meta-inline" *ngIf="getTransactionType(transaction) === 'DEBIT'">
-                        <span class="src-cash">₹{{ (getRedeemedPoints(transaction) > 0 ? getNetCashDebited(transaction) : transaction.amount) | number:'1.2-2' }} Cash</span>
-                        <span class="src-plus">+</span>
-                        <span class="src-pts">{{ getRedeemedPoints(transaction) || 0 }} pts</span>
+                    <div class="breakdown-block">
+                        <div class="rewards-meta-inline" *ngIf="getTransactionType(transaction) === 'DEBIT'">
+                            <span class="src-cash">₹{{ (getRedeemedPoints(transaction) > 0 ? getNetCashDebited(transaction) : transaction.amount) | number:'1.2-2' }} Cash</span>
+                            <span class="src-plus">+</span>
+                            <span class="src-pts">{{ getRedeemedPoints(transaction) || 0 }} pts</span>
+                        </div>
                     </div>
                 </div>
 
