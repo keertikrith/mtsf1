@@ -20,7 +20,7 @@
 
 .history-root > * {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1050px; /* Slight extra room given to support clear horizontal length expansions */
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -158,11 +158,17 @@
     box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
 }
 
-.history-root .table-header {
+/* Back to standard 5-column setup with a slightly scaled grid for amounts */
+.history-root .table-header,
+.transaction-row {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1.2fr 1.2fr 1fr;
+    grid-template-columns: 1fr 0.8fr 1fr 2fr 0.8fr;
     gap: 16px;
-    padding: 14px 20px;
+    padding: 16px 20px;
+    align-items: center;
+}
+
+.history-root .table-header {
     background: linear-gradient(135deg, #f8fafc 0%, #f0fdfa 100%);
     border-bottom: 2px solid rgba(203, 213, 225, 0.2);
     font-size: 11px;
@@ -173,11 +179,6 @@
 }
 
 .transaction-row {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 1.2fr 1.2fr 1fr;
-    gap: 16px;
-    padding: 14px 20px;
-    align-items: center;
     border-bottom: 1px solid rgba(203, 213, 225, 0.2);
     font-size: 14px;
     color: #1e3a8a;
@@ -209,17 +210,64 @@
     color: #64748b;
 }
 
-.col-amount {
-    font-weight: 700;
-    color: #1e3a8a;
+/* Horizontal layout configuration container inside Total Amount */
+.info-breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap; /* Forces everything strictly onto the same single row line */
 }
 
-.col-amount.debit {
+.base-total-line {
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.col-amount.debit .base-total-line {
     color: #dc2626;
 }
 
-.col-amount.credit {
+.col-amount.credit .base-total-line {
     color: #059669;
+}
+
+.inline-separator {
+    color: #cbd5e1;
+    font-size: 14px;
+    user-select: none;
+}
+
+/* Horizontal metadata breakdown container styling */
+.rewards-meta-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.src-cash {
+    color: #475569;
+    background: #f8fafc;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+.src-plus {
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+.src-pts {
+    color: #0d9488;
+    background: #f0fdfa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccfbf1;
+    white-space: nowrap;
 }
 
 .badge {
@@ -259,20 +307,17 @@
     border: 1px solid #fca5a5;
 }
 
+/* Responsiveness media breakpoints */
 @media (max-width: 1024px) {
     .history-root .table-header,
     .transaction-row {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 0.8fr 1fr 1.8fr 0.8fr;
         gap: 12px;
         padding: 12px;
     }
 
     .history-root .heading {
         font-size: 28px;
-    }
-
-    .col-amount {
-        grid-column: span 1;
     }
 }
 

@@ -38,7 +38,7 @@
                 <div class="col-date">Date</div>
                 <div class="col-type">Type</div>
                 <div class="col-account">Account</div>
-                <div class="col-amount">Amount</div>
+                <div class="col-amount">Total Amount</div>
                 <div class="col-status">Status</div>
             </div>
 
@@ -50,11 +50,24 @@
                         {{ getTransactionType(transaction) }}
                     </span>
                 </div>
-                <div class="col-account">{{ getOtherAccountId(transaction) }}</div>
-                <div class="col-amount" [class.debit]="getTransactionType(transaction) === 'DEBIT'"
+                <div class="col-account">ACC-00000{{ getOtherAccountId(transaction) }}</div>
+                
+                <div class="col-amount info-breakdown-row" [class.debit]="getTransactionType(transaction) === 'DEBIT'"
                     [class.credit]="getTransactionType(transaction) === 'CREDIT'">
-                    {{ getTransactionType(transaction) === 'DEBIT' ? '−' : '+' }}₹{{ transaction.amount | number:'1.2-2' }}
+                    
+                    <span class="base-total-line">
+                        {{ getTransactionType(transaction) === 'DEBIT' ? '−' : '+' }}₹{{ transaction.amount | number:'1.2-2' }}
+                    </span>
+                    
+                    <span class="inline-separator" *ngIf="getTransactionType(transaction) === 'DEBIT'">•</span>
+                    
+                    <div class="rewards-meta-inline" *ngIf="getTransactionType(transaction) === 'DEBIT'">
+                        <span class="src-cash">₹{{ (getRedeemedPoints(transaction) > 0 ? getNetCashDebited(transaction) : transaction.amount) | number:'1.2-2' }} Cash</span>
+                        <span class="src-plus">+</span>
+                        <span class="src-pts">{{ getRedeemedPoints(transaction) || 0 }} pts</span>
+                    </div>
                 </div>
+
                 <div class="col-status">
                     <span class="badge" [class.badge-success]="transaction.status === 'SUCCESS'"
                         [class.badge-failed]="transaction.status === 'FAILED'">
