@@ -376,3 +376,217 @@
         min-width: unset;
     }
 }
+/* ==========================================================================
+   Funding Source Grid Selection UI 
+   ========================================================================== */
+.method-selection-area {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.funding-selector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.funding-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 150ms ease;
+    position: relative;
+    user-select: none;
+}
+
+.funding-card input[type="radio"] {
+    margin-top: 3px;
+    accent-color: #0f766e;
+    cursor: pointer;
+}
+
+.funding-card:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+
+/* Active style state modifications */
+.funding-card.selected {
+    border-color: #0f766e;
+    background: #f0fdfa;
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+}
+
+.funding-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.funding-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+.funding-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.funding-card.selected .funding-subtitle {
+    color: #0f766e;
+}
+
+.funding-cost-preview {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #0f766e !important;
+}
+
+/* Structural Breakpoints Responsiveness layouts adjustments */
+@media (max-width: 600px) {
+    .funding-selector-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+/* ==========================================================================
+   Integrated Checkout / Rewards Toggle and Receipt Styles
+   ========================================================================== */
+.balance-sub {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.rewards-redemption-row {
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+.reward-toggle-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 150ms ease;
+    user-select: none;
+}
+
+.reward-toggle-card:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.reward-toggle-card.active-applied {
+    border-color: #0f766e;
+    background: #f0fdfa;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #0f766e;
+    cursor: pointer;
+}
+
+.reward-toggle-label-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toggle-main-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+.toggle-subtitle {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.reward-toggle-card.active-applied .toggle-subtitle {
+    color: #0f766e;
+}
+
+/* Receipt breakdown calculation display container block styles */
+.breakdown-receipt-area {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.receipt-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.receipt-val {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.text-green {
+    color: #16a34a;
+}
+
+.text-teal {
+    color: #0f766e;
+}
+
+.receipt-divider {
+    border: 0;
+    border-top: 1px dashed #cbd5e1;
+    margin: 4px 0;
+}
+
+.receipt-line.total {
+    font-size: 14px;
+    color: #1e3a8a;
+    font-weight: 800;
+}
+
+.receipt-line.total .highlight {
+    font-size: 16px;
+    color: #1e3a8a;
+}
+
+.reward-earned-line {
+    font-size: 12px !important;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+    margin-top: 4px;
+}
+
+.earned-label {
+    font-style: italic;
+}
+
+.earned-val {
+    font-weight: 700;
+}

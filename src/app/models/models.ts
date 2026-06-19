@@ -24,6 +24,7 @@ export interface TransferRequest {
     toAccountId: number;
     amount: number;
     idempotencyKey: string;
+    redeemRewards: boolean; // NEW: True if rewards discount checkbox is toggled
 }
 
 export interface TransferResponse {
@@ -43,8 +44,6 @@ export interface Transaction {
     status: string;
     createdOn: string;
 }
-
-// ── Reward Module ─────────────────────────────────────────────────────────────
 
 export interface RewardEntry {
     id: number;

@@ -3,7 +3,7 @@
     <header class="header-row">
         <div>
             <h1 class="heading">Transfer</h1>
-            <p class="subheading">Move money securely and quickly</p>
+            <p class="subheading">Move money securely from your bank account</p>
         </div>
         <a routerLink="/dashboard" class="link-back" aria-label="Back to dashboard">
             <svg class="icon-back" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,20 +17,21 @@
         <section class="row sender-receiver">
             <div class="account from">
                 <div class="avatar" aria-hidden="true">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.2"></circle>
                         <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
                     </svg>
                 </div>
                 <div class="meta">
-                    <label class="label">From</label>
+                    <label class="label">From Bank Account</label>
                     <div class="account-id">Account #{{ fromAccountId }}</div>
+                    <div class="balance-sub">Available Cash: ₹{{ availableCashBalance | number:'1.2-2' }}</div>
                 </div>
             </div>
 
             <div class="account to">
                 <div class="avatar small" aria-hidden="true">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.2"></rect>
                     </svg>
                 </div>
@@ -38,15 +39,49 @@
                     <label class="label" for="toAccount">To</label>
                     <input id="toAccount" type="text" [(ngModel)]="toAccountIdInput" name="toAccount" required
                            placeholder="Recipient account ID" class="input-plain" />
-                    <div class="hint muted">Tip: accept formats like <em>ACC-000123</em></div>
+                    <div class="hint muted">Accepts formats like <em>ACC-000123</em></div>
                 </div>
             </div>
         </section>
 
         <section class="row amount-area" aria-labelledby="amountLabel">
-            <label id="amountLabel" class="label">Amount</label>
+            <label id="amountLabel" class="label">Amount to Send</label>
             <input id="amount" type="number" [(ngModel)]="amount" name="amount" required min="0.01" step="0.01"
                    inputmode="decimal" placeholder="0.00" class="amount-input" />
+        </section>
+
+        <section class="row rewards-redemption-row" *ngIf="availableRewardPoints > 0 && amount > 0">
+            <label class="reward-toggle-card" [class.active-applied]="redeemRewards">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" [(ngModel)]="redeemRewards" name="applyRewardsCheckbox">
+                </div>
+                <div class="reward-toggle-label-group">
+                    <span class="toggle-main-title">Apply Reward Points Balance Discount</span>
+                    <span class="toggle-subtitle">
+                        Available Wallet Balance: {{ availableRewardPoints }} pts (Value: ₹{{ rewardPointsValueInRupees | number:'1.2-2' }})
+                    </span>
+                </div>
+            </label>
+        </section>
+
+        <section class="row breakdown-receipt-area" *ngIf="amount > 0">
+            <div class="receipt-line">
+                <span>Total Amount Sent to Recipient:</span>
+                <span class="receipt-val">₹{{ amount | number:'1.2-2' }}</span>
+            </div>
+            <div class="receipt-line deduction" *ngIf="redeemRewards && computedPointsToDeduct > 0">
+                <span>Rewards Applied (Deducted {{ computedPointsToDeduct }} pts):</span>
+                <span class="receipt-val text-green">- ₹{{ computedPointsToDeduct | number:'1.2-2' }}</span>
+            </div>
+            <hr class="receipt-divider">
+            <div class="receipt-line total">
+                <span>Net Cash Debited from Bank Account:</span>
+                <span class="receipt-val highlight">₹{{ netCashDebitedAmount | number:'1.2-2' }}</span>
+            </div>
+            <div class="receipt-line reward-earned-line">
+                <span class="earned-label">Points to be Earned from this Transfer:</span>
+                <span class="earned-val text-teal">+{{ expectedRewardPointsEarned }} points</span>
+            </div>
         </section>
 
         <section class="row controls">
@@ -58,7 +93,7 @@
             <div class="cta-wrap">
                 <button type="submit" class="btn-primary" [disabled]="isLoading">
                     <span class="primary-text">{{ isLoading ? 'Processing...' : 'Send Money' }}</span>
-                    <span class="secondary-text">Secure transfer</span>
+                    <span class="secondary-text">Secure transfer via MTS Bank</span>
                 </button>
             </div>
         </section>
